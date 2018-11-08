@@ -11,7 +11,7 @@ class Register extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Register')),
-      body: RegisterForm(),
+      body: Container(padding: EdgeInsets.all(20.0), child: RegisterForm()),
     );
   }
 }
@@ -35,13 +35,14 @@ class RegisterFormState extends State<RegisterForm> {
   _RegisterData _credentials = new _RegisterData();
 
   ProgressHUD progressIndicator = ProgressHUD(
-      backgroundColor: Colors.black12,
-      color: Colors.white,
-      containerColor: Colors.blue,
-      borderRadius: 5.0,
-      text: 'Registering... ',);
+    backgroundColor: Colors.black12,
+    color: Colors.white,
+    containerColor: Colors.blue,
+    borderRadius: 5.0,
+    text: 'Registering... ',
+  );
 
-@override
+  @override
   void initState() {
     checkPrefs();
     super.initState();
@@ -54,57 +55,56 @@ class RegisterFormState extends State<RegisterForm> {
     return Form(
         key: _registerFormKey,
         autovalidate: true,
-        child: Container(
-            padding: EdgeInsets.all(20.0),
-            child: ListView(children: <Widget>[
-              TextFormField(
-                keyboardType: TextInputType.text,
-                decoration:
-                    InputDecoration(hintText: 'John Doe', labelText: 'Name'),
-                validator: this._validateName,
-                onSaved: (String name) {
-                  this._credentials.name = name;
-                },
-              ),
-              TextFormField(
-                keyboardType: TextInputType.emailAddress,
-                decoration: InputDecoration(
-                    hintText: 'me@mail.com', labelText: 'E-mail Address'),
-                validator: this._validateEmail,
-                onSaved: (String email) {
-                  this._credentials.email = email;
-                },
-              ),
-              TextFormField(
-                obscureText: true,
-                decoration: InputDecoration(
-                    hintText: 'password', labelText: 'Password'),
-                validator: this._validatePassword,
-                onSaved: (String password) {
-                  this._credentials.password = password;
-                },
-              ),
-              TextFormField(
-                obscureText: true,
-                decoration: InputDecoration(
-                    hintText: 'password', labelText: 'Confirm Password'),
-                validator: this._validatePassword,
-                onSaved: (String password) {
-                  this._credentials.confirmPass = password;
-                },
-              ),
-              Divider(),
-              Container(
-                  width: screenSize.width,
-                  child: RaisedButton(
-                    onPressed: this._register,
-                    color: Colors.blue,
-                    child: Text(
-                      'Register',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  )),
-            ])));
+        child: SingleChildScrollView(
+            child: Column(children: <Widget>[
+          TextFormField(
+            keyboardType: TextInputType.text,
+            decoration:
+                InputDecoration(hintText: 'John Doe', labelText: 'Name'),
+            validator: this._validateName,
+            onSaved: (String name) {
+              this._credentials.name = name;
+            },
+          ),
+          TextFormField(
+            keyboardType: TextInputType.emailAddress,
+            decoration: InputDecoration(
+                hintText: 'me@mail.com', labelText: 'E-mail Address'),
+            validator: this._validateEmail,
+            onSaved: (String email) {
+              this._credentials.email = email;
+            },
+          ),
+          TextFormField(
+            obscureText: true,
+            decoration:
+                InputDecoration(hintText: 'password', labelText: 'Password'),
+            validator: this._validatePassword,
+            onSaved: (String password) {
+              this._credentials.password = password;
+            },
+          ),
+          TextFormField(
+            obscureText: true,
+            decoration: InputDecoration(
+                hintText: 'password', labelText: 'Confirm Password'),
+            validator: this._validatePassword,
+            onSaved: (String password) {
+              this._credentials.confirmPass = password;
+            },
+          ),
+          Divider(),
+          Container(
+              width: screenSize.width,
+              child: RaisedButton(
+                onPressed: this._register,
+                color: Colors.blue,
+                child: Text(
+                  'Register',
+                  style: TextStyle(color: Colors.white),
+                ),
+              )),
+        ])));
   }
 
   void _register() {
@@ -127,7 +127,8 @@ class RegisterFormState extends State<RegisterForm> {
 
       AppAPI api = AppAPI();
       api
-          .signup(_credentials.name, _credentials.email, _credentials.password, _credentials.confirmPass)
+          .signup(_credentials.name, _credentials.email, _credentials.password,
+              _credentials.confirmPass)
           .then((loggedInUser) {
         if (loggedInUser is User) {
           saveUserData(loggedInUser);
