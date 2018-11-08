@@ -1,8 +1,8 @@
-# app
+# Akedu
 
-A new Flutter project.
+A Flutter project to allow users view colleges and courses they offer.
 
 ## Getting Started
 
-For help getting started with Flutter, view our online
-[documentation](https://flutter.io/).
+1. Clone this project on a computer with flutter installed
+2. Build and you are good to go
